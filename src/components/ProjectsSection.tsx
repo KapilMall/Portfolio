@@ -4,23 +4,52 @@ import { Modal } from "./Modal";
 
 export const ProjectsSection = () => {
     const [openProjectPreviewModal, setOpenProjectPreviewModal] = useState(false);
+    const [selectedProject, setSelectedProject] = useState<any>(null);
 
     const projects = [
         {
           id: 1,
-          title: "SaaS Landing Page",
-          description: "A beautiful landing page app using React and Tailwind.",
-          image: "/projects/project1.png",
-          tags: ["React", "TailwindCSS", "Supabase"],
-          demoUrl: "#",
-          githubUrl: "#",
+          title: "AppOpnr",
+          description: "App opener to open links directly in apps instead of Browser",
+          mainImage: "/projects/Dark.png",
+          details: [
+            { 
+                id: 11,
+                title: 'App in dark mode',
+                description: "App Overview in dark mode!",
+                image: '/projects/Dark.png',
+            },
+            { 
+                id: 12,
+                title: 'App in light mode',
+                description: "App Overview in light mode!",
+                image: '/projects/light.png',
+            },
+            { 
+                id: 13,
+                title: 'Enter URL',
+                description: "User can paste the URL you want to create the AppOpnr URL for.",
+                image: '/projects/enter-url.png',
+            },
+            { 
+                id: 14,
+                title: 'Generated URL',
+                description: "User can copy the generated URL from here to open the app directly from the link.",
+                image: '/projects/generated-url.png',
+            }
+          ],
+          url: {
+            githubUrl: "https://github.com/KapilMall/App-opnr-frontend",
+            websiteUrl: "https://app-opnr.vercel.app/"
+          },
+          tags: ["React", "TailwindCSS", "Node Js", "Express"],
         },
         {
           id: 2,
           title: "Orbit Analytics Dashboard",
           description:
             "Interactive analytics dashboard with data visualization and filtering capabilities.",
-          image: "/projects/project2.png",
+          mainImage: "/projects/project2.png",
           tags: ["TypeScript", "D3.js", "Next.js"],
           demoUrl: "#",
           githubUrl: "#",
@@ -30,12 +59,17 @@ export const ProjectsSection = () => {
           title: "E-commerce Platform",
           description:
             "Full-featured e-commerce platform with user authentication and payment processing.",
-          image: "/projects/project3.png",
+          mainImage: "/projects/project3.png",
           tags: ["React", "Node.js", "Stripe"],
           demoUrl: "#",
           githubUrl: "#",
         },
       ];
+    
+    const handleProjectClick = (project: any) => {
+        setSelectedProject(project)
+        setOpenProjectPreviewModal(true);
+    }
 
     return (
         <section id="projects" className="py-24 px-4 relative">
@@ -54,10 +88,10 @@ export const ProjectsSection = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {
                         projects.map((project, key) => (
-                            <div key={key} className="group bg-card rounded-lg overflow-hidden shadow-xs card-hover cursor-pointer" onClick={() => setOpenProjectPreviewModal(true)}>
+                            <div key={key} className="group bg-card rounded-lg overflow-hidden shadow-xs card-hover cursor-pointer" onClick={() => handleProjectClick(project)}>
                                 <div className="h-48 overflow-hidden">
                                     <img 
-                                        src={project.image}
+                                        src={project.mainImage}
                                         alt={project.title}
                                         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                                     />
@@ -87,13 +121,13 @@ export const ProjectsSection = () => {
                                     <div className="absolute bottom-0 w-full">
                                         <div className="flex flex-row px-2 py-1 gap-2 items-center">
                                             <a 
-                                                href={project.demoUrl}
+                                                href={project.url?.websiteUrl}
                                                 target="_blank"
                                                 className="text-foreground/80 hover:text-primary transition-colors duration-300">
                                                 <ExternalLink />
                                             </a>
                                             <a 
-                                                href={project.githubUrl}
+                                                href={project.url?.githubUrl}
                                                 target="_blank"
                                                 className="text-foreground/80 hover:text-primary transition-colors duration-300">
                                                 <img 
@@ -104,15 +138,15 @@ export const ProjectsSection = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                                </div>
                         ))
                     }
                 </div>
-                
+
                 {/* Modal  */}
-
-                <Modal projectTitle="Prject Name" data={['fef', 'sad']} siteUrl="#" githubUrl="#" isOpen={openProjectPreviewModal} onClose = {() => setOpenProjectPreviewModal(false)}/>
-
+                <Modal projectTitle={selectedProject?.title} data={selectedProject?.details} urls={selectedProject?.url} isOpen={openProjectPreviewModal} onClose = {() => setOpenProjectPreviewModal(false)}/> 
+                                         
+                
                 {/* Go to github profile button  */}
 
                 <div className="text-center mt-12">
