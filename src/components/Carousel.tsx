@@ -3,12 +3,17 @@ import { Button } from "./Button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Slide } from "./Slide";
 import { useState } from "react";
+import { ProjectOverView } from "./ProjectOverview";
 
 interface CarouselProps {
     data: any;
+    isModal: boolean;
+    handleProjectClick?: (project: any) => void;
 }
 
-export const Carousel: React.FC<CarouselProps> = ({data}) => {
+export const Carousel: React.FC<CarouselProps> = ({data, isModal, handleProjectClick}) => {
+
+    console.log(data)    
 
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -34,16 +39,20 @@ export const Carousel: React.FC<CarouselProps> = ({data}) => {
             <Button backgroundColor="white" borderRadius={50} icon={ArrowLeft} color="black" classname="p-[10px]" handleClick={handlePrevClick}/>
             { data.map((slide: any, index: number) => {
                 if(index !== currentIndex) return;
-                return (
-                    <div className="flex w-[100%] h-[100%] items-center justify-center" key={index}>
-                        <Slide 
-                            title={slide.title}
-                            description={slide.description}
-                            image={slide.image} 
-                            switchLayout={ index === 0 || index % 2 === 0 ? true : false }
-                        />
-                    </div>
-                )
+                
+                return isModal ? 
+                <div className="flex w-[100%] h-[100%] items-center justify-center" key={index}>
+                    <Slide 
+                        title={slide.title}
+                        description={slide.description}
+                        image={slide.image} 
+                        switchLayout={ index === 0 || index % 2 === 0 ? true : false }
+                    />
+                </div> : 
+                <div>
+                    <ProjectOverView project = {slide} handleProjectClick = {handleProjectClick || (() => {})}/>
+                </div>
+                
             }) }
             <Button backgroundColor="white" borderRadius={50} icon={ArrowRight} color="black" classname="p-[10px]" handleClick={handleNextClick}/>
         </div>

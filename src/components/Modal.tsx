@@ -1,5 +1,4 @@
 import { ExternalLink, Github } from "lucide-react";
-import { Button } from "./Button";
 import { createPortal } from "react-dom";
 import { Carousel } from "./Carousel";
 
@@ -29,7 +28,7 @@ export const Modal: React.FC<ModalProps> = ({ projectTitle, data, urls, isOpen, 
                     {/* Carousel component  */}
 
                     <div className="mb-6 bg-secondary rounded-lg h-64 flex items-center justify-center">
-                        <Carousel data = {data}/>
+                        <Carousel data = {data} isModal = {true}/>
                     </div>    
 
                     {/* Visit site and Github repo button  */}
