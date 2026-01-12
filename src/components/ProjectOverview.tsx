@@ -1,3 +1,4 @@
+import { useTheme } from "@/lib/ThemeContext";
 import { ExternalLink } from "lucide-react";
 
 interface projectOverviewProps {
@@ -6,6 +7,9 @@ interface projectOverviewProps {
 }
 
 export const ProjectOverView:React.FC<projectOverviewProps> = ({project, handleProjectClick}) => {
+
+    const { isDarkMode } = useTheme();
+
     return (
         <div className="group bg-card rounded-lg overflow-hidden shadow-xs card-hover cursor-pointer" onClick={() => handleProjectClick(project)}>
             <div className="h-48 overflow-hidden">
@@ -51,7 +55,7 @@ export const ProjectOverView:React.FC<projectOverviewProps> = ({project, handleP
                                     target="_blank"
                                     className="text-foreground/80 hover:text-primary transition-colors duration-300">
                                     <img 
-                                        src="/projects/github-white.png"
+                                        src={isDarkMode ? "/projects/github-white.png" : "/projects/github.png"}
                                         className="w-5 h-5"
                                     />
                                 </a>

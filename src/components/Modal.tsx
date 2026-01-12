@@ -1,6 +1,7 @@
 import { ExternalLink, Github } from "lucide-react";
 import { createPortal } from "react-dom";
 import { Carousel } from "./Carousel";
+import { useTheme } from "@/lib/ThemeContext";
 
 interface ModalProps {
     projectTitle: string;
@@ -13,6 +14,8 @@ interface ModalProps {
 export const Modal: React.FC<ModalProps> = ({ projectTitle, data, urls, isOpen, onClose }) => {
 
     if(!isOpen) return null;
+
+    const { isDarkMode } = useTheme();
 
     return (
         createPortal(
@@ -47,9 +50,13 @@ export const Modal: React.FC<ModalProps> = ({ projectTitle, data, urls, isOpen, 
                             <a
                                 href={urls?.githubUrl || "#"}
                                 target="_blank"
-                                className="bg-[black] rounded-full px-[32px] py-[10px] w-fit flex items-center mx-auto gap-2 hover:scale-107 duration-300 ease-in hover:shadow-[0_0_10px_rgba(139,92,246,0.5)]"
+                                className="bg-background rounded-full px-[32px] py-[10px] w-fit flex items-center mx-auto gap-2 hover:scale-107 duration-300 ease-in hover:shadow-[0_0_10px_rgba(139,92,246,0.5)]"
                             >
-                                <Github size={16}/> Github 
+                                <img 
+                                    src={isDarkMode ? "/projects/github-white.png" : "/projects/github.png"}
+                                    className="w-5 h-5"
+                                />
+                                Github
                             </a>
                         </div>
                     </div>

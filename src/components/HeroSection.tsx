@@ -1,6 +1,34 @@
 import { ArrowDown } from "lucide-react"
+import { useEffect, useState } from "react"
 
 export const HeroSection = () => {
+
+    const [showScroll, setShowScroll] = useState(true);
+    const [isInHeroSection, setIsInHeroSection] = useState(true);
+
+    useEffect(() => {
+       const handleScroll = () => {
+            const heroSection = document.getElementById('hero');
+            if(!heroSection) return;
+
+            const heroRect = heroSection.getBoundingClientRect();
+
+            const isInView = heroRect.top < window.innerHeight && heroRect.bottom > 0
+            setIsInHeroSection(isInView);
+
+            if (window.scrollY > 100) {
+                setShowScroll(false);
+            } else if(isInView) {
+                setShowScroll(true)
+            }
+       }
+
+       window.addEventListener('scroll', handleScroll);
+
+       return () => window.removeEventListener('scroll', handleScroll)
+
+    }, [])
+
     return (
        
         <section id="hero" className="relative min-h-screen flex flex-col items-center justify-center px-4">
@@ -26,10 +54,13 @@ export const HeroSection = () => {
                 </div>
             </div>
 
-            <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-bounce">
-                <span className="text-sm text-muted-foreground mb-2">Scroll</span>
-                <ArrowDown className="h-5 w-5 text-primary"/>
-            </div>
+            {
+                showScroll && isInHeroSection && 
+                <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-bounce">
+                    <span className="text-sm text-muted-foreground mb-2">Scroll</span>
+                    <ArrowDown className="h-5 w-5 text-primary"/>
+                </div>
+            }
         </section>
     )
 }
