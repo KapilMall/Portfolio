@@ -70,7 +70,7 @@ export const Carousel: React.FC<CarouselProps> = ({data, isModal, handleProjectC
     }
 
     return (
-        <div className="flex gap-[10px] w-[100%] h-[100%] justify-center items-center">
+        <div className="flex gap-[20px] w-[100%] h-[450px] justify-center items-center">
             <Button backgroundColor="white" borderRadius={50} icon={ArrowLeft} color="black" classname="p-[10px]" handleClick={handlePrevClick}/>
 
                 {
@@ -98,7 +98,7 @@ export const Carousel: React.FC<CarouselProps> = ({data, isModal, handleProjectC
                     (
                         data.slice(currentIndex, currentIndex + projectPerPage).map((project:any, index:any) => {
                             return (
-                                <div>
+                                <div className="flex-1 h-full" key={index}>
                                     <ProjectOverView project = {project} handleProjectClick = {handleProjectClick || (() => {})}/>
                                 </div>
                             )

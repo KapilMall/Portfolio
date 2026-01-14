@@ -11,8 +11,8 @@ export const ProjectOverView:React.FC<projectOverviewProps> = ({project, handleP
     const { isDarkMode } = useTheme();
 
     return (
-        <div className="group bg-card rounded-lg overflow-hidden shadow-xs card-hover cursor-pointer" onClick={() => handleProjectClick(project)}>
-            <div className="h-48 overflow-hidden">
+        <div className="w-full h-full flex flex-col group bg-card rounded-lg overflow-hidden shadow-xs card-hover cursor-pointer" onClick={() => handleProjectClick(project)}>
+            <div className="h-48 shrink-0 overflow-hidden">
                 <img 
                     src={project.mainImage}
                     alt={project.title}
@@ -22,15 +22,15 @@ export const ProjectOverView:React.FC<projectOverviewProps> = ({project, handleP
 
             {/* tech stack and other info  */}
 
-            <div className="p-6 flex flex-col items-center justify-center relative">
-                <div className="flex flex-wrap gap-2 mb-4">
+            <div className="p-6 flex flex-col items-center justify-center relative flex-1">
+                <div className="flex flex-wrap gap-2 mb-4 justify-center">
                     { 
                     project.tags.map((tag: any, key: number) => (
                         <span key={key} className="px-2 py-1 text-sm font-medium rounded-full border bg-secondary text-secondary-foreground">
                             {tag}
                         </span>
                         ) ) }
-                        </div>
+                </div>
 
                         {/* title  */}
                         <h3 className="text-xl font-semibold mb-1">{ project.title }</h3>
@@ -42,7 +42,7 @@ export const ProjectOverView:React.FC<projectOverviewProps> = ({project, handleP
 
                         {/* github and project link  */}
 
-                        <div className="absolute bottom-0 w-full">
+                        <div className="absolute bottom-[10px] w-full">
                             <div className="flex flex-row px-2 py-1 gap-2 items-center">
                                 <a 
                                     href={project.url?.websiteUrl}

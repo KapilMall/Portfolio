@@ -1,4 +1,4 @@
-import { ExternalLink, Github } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { createPortal } from "react-dom";
 import { Carousel } from "./Carousel";
 import { useTheme } from "@/lib/ThemeContext";
