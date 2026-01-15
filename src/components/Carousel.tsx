@@ -99,7 +99,7 @@ export const Carousel: React.FC<CarouselProps> = ({data, isModal, handleProjectC
                         data.slice(currentIndex, currentIndex + projectPerPage).map((project:any, index:any) => {
                             return (
                                 <div className="flex-1 h-full" key={index}>
-                                    <ProjectOverView project = {project} handleProjectClick = {handleProjectClick || (() => {})}/>
+                                    <ProjectOverView index={index} project = {project} handleProjectClick = {handleProjectClick || (() => {})}/>
                                 </div>
                             )
                         })

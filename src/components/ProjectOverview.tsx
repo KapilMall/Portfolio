@@ -1,22 +1,67 @@
 import { useTheme } from "@/lib/ThemeContext";
 import { ExternalLink } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 interface projectOverviewProps {
     project: any;
-    handleProjectClick: (project: any) => void
+    handleProjectClick: (project: any) => void;
+    index: number;
 }
 
-export const ProjectOverView:React.FC<projectOverviewProps> = ({project, handleProjectClick}) => {
+export const ProjectOverView:React.FC<projectOverviewProps> = ({project, handleProjectClick, index}) => {
 
     const { isDarkMode } = useTheme();
+    
+    //states and refs for animation purpose
+    const sectionRef = useRef<HTMLDivElement>(null);
+    const [isVisible, setIsVisible] = useState(false);
+
+    //use effect IntersectionObserver for animation.
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) =>{
+                    if(entry.isIntersecting) {
+                        setIsVisible(true);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            {
+                threshold: 0.5,
+                rootMargin: "50px"
+            }
+        );
+
+        if(sectionRef.current){
+            observer.observe(sectionRef.current);
+        };
+
+        return () => {
+            if (sectionRef.current) {
+                observer.unobserve(sectionRef.current);
+            }
+        };
+    }, [])
+
 
     return (
-        <div className="w-full h-full flex flex-col group bg-card rounded-lg overflow-hidden shadow-xs card-hover cursor-pointer" onClick={() => handleProjectClick(project)}>
+        <div ref={sectionRef} 
+             className={`w-full h-full flex flex-col group bg-card rounded-lg overflow-hidden shadow-xs card-hover cursor-pointer transition-all duration-1000 ease-out ${
+                isVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-28"
+                }`} 
+                style={{
+                    transitionDelay: `${index * 350}ms`
+                }}
+                onClick={() => handleProjectClick(project)}>
             <div className="h-48 shrink-0 overflow-hidden">
                 <img 
                     src={project.mainImage}
                     alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                 />
             </div>
 
@@ -47,13 +92,13 @@ export const ProjectOverView:React.FC<projectOverviewProps> = ({project, handleP
                                 <a 
                                     href={project.url?.websiteUrl}
                                     target="_blank"
-                                    className="text-foreground/80 hover:text-primary transition-colors duration-300">
+                                    className="text-foreground/80 hover:text-primary transition-colors duration-1000">
                                     <ExternalLink />
                                 </a>
                                 <a 
                                     href={project.url?.githubUrl}
                                     target="_blank"
-                                    className="text-foreground/80 hover:text-primary transition-colors duration-300">
+                                    className="text-foreground/80 hover:text-primary transition-colors duration-1000">
                                     <img 
                                         src={isDarkMode ? "/projects/github-white.png" : "/projects/github.png"}
                                         className="w-5 h-5"
